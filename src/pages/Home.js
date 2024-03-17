@@ -114,7 +114,10 @@ const Home = () => {
     }
   }
 
-  const setIdEditItem = (id, e) =>{
+  const setIdEditItem = (id, value=null,e) =>{
+    if(id){
+      setFormDataUpdate({titleUpdate: value})
+    }
     setEditItem({itemId: id})
   }
 
@@ -171,7 +174,7 @@ const Home = () => {
                   onChange={(e) => handleCheckboxChange(item.id, e)}
                   />
                 </div>
-                <div className='col-9'>
+                <div className={(!editItem.itemId || editItem.itemId !== item.id) ? 'col-9' : 'col-11'}>
                 {!editItem.itemId || editItem.itemId !== item.id? (
                     <span className={item.is_success ? 'success-work' : ''}>{item.title}</span>
                   ) : (
@@ -188,7 +191,7 @@ const Home = () => {
                 {(!editItem.itemId || editItem.itemId !== item.id) && (
                     <div className='col-2 d-flex gap-2'>
                     {!item.is_success && (
-                        <FontAwesomeIcon icon={faPenToSquare} id={`edit-${item.id}`}  onClick={(e) => setIdEditItem(item.id, e)}/>
+                        <FontAwesomeIcon icon={faPenToSquare} id={`edit-${item.id}`}  onClick={(e) => setIdEditItem(item.id, item.title,e)}/>
                       )}
                      <FontAwesomeIcon icon={faTrash} id={`remove-${item.id}`} onClick={(e) => removeItem(item.id, e)} />
                     </div>
