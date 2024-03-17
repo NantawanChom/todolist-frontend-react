@@ -16,6 +16,8 @@ const Home = () => {
   const [editItem, setEditItem] = useState({
     itemId: null
   })
+  const [error, setError] = useState(null);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -59,15 +61,20 @@ const Home = () => {
     })
     .then(response => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error(response.statusText);
       }
+      setError(null);
+      setIsError(false);
       return response.json();
     })
     .then(data => {
+      setFormData({ ...formData, 'title': '' });
       fetchData();
     })
     .catch(error => {
       console.error('Error:', error);
+      setError(error.message);
+      setIsError(true);
     });
   }
 
@@ -140,10 +147,14 @@ const Home = () => {
     })
     .then(data => {
       setIdEditItem(null)
+      setError(null);
+      setIsError(false);
       fetchData();
     })
     .catch(error => {
       console.error('Error:', error);
+      setError(error.message);
+      setIsError(true);
     });
   }
 
@@ -153,8 +164,9 @@ const Home = () => {
           <div className='container-fluid p-0'>
           <div className='row align-items-center'>
             <div className='col-11'>
-              <input type="text" name="title" className='content-insert' placeholder='Insert Text...' value={formData.title}
+              <input type="text" name="title" className={isError ? 'content-insert error-field' : 'content-insert'} placeholder='Insert Text...' value={formData.title}
             onChange={handleInputChange} autoComplete="off"/>
+            {isError && <div style={{ color: 'red' }}>{error}</div>}
             </div>
             <div className='col'>
             <button type="submit" className="btn btn-success w-100" >add</button>

@@ -35,3 +35,6 @@
 .update-btn{
     width: 80px;
 }
+.error-field{
+    border-color: red;
+}
