@@ -27,3 +27,11 @@
 .line {
     border-top: 1px solid #89CFF0;
 }
+
+.success-work{
+    text-decoration: line-through;
+}
+
+.update-btn{
+    width: 80px;
+}
